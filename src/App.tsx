@@ -15,25 +15,27 @@ import { useObserver } from "mobx-react";
 import { useState } from "react";
 import GoogleLogin from "react-google-login";
 import axios from "axios";
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Login from "./Component/Login";
 export function GoogleButton() {
   const onSuccess = async (response: any) => {
     let id = response.Ft.pu;
     let userName = response.Ft.Ue;
-    await axios
-      .post(
-        "http://localhost:8090/login",
-        JSON.stringify({ id: id, userName: userName })
-      )
-      .then(() => {
-        LoginStore.setLoginInfo(new LoginInfoDO(id, userName));
-        LoginStore.setLoginDialogVariable(false);
-        LoginStore.setIsLoggedIn(true);
-        console.log(LoginStore.loginInfo);
-        alert(LoginStore.loginInfo.userName + "님 반갑습니다.");
-      })
-      .catch(() => {
-        alert("로그인 오류!");
-      });
+    // await axios
+    //   .post(
+    //     "http://localhost:8090/login",
+    //     JSON.stringify({ id: id, userName: userName })
+    //   )
+    //   .then(() => {
+    //     LoginStore.setLoginInfo(new LoginInfoDO(id, userName));
+    //     LoginStore.setLoginDialogVariable(false);
+    //     LoginStore.setIsLoggedIn(true);
+    //     console.log(LoginStore.loginInfo);
+    //     alert(LoginStore.loginInfo.userName + "님 반갑습니다.");
+    //   })
+    //   .catch(() => {
+    //     alert("로그인 오류!");
+    //   });
   };
   const onFailure = (error: any) => {
     console.log(error);
@@ -54,8 +56,35 @@ export function GoogleButton() {
 const LoginDialog = () => {
   const [id, setId] = useState("");
   const [passwd, setPasswd] = useState("");
-  const postLoginInfo = () => {
-    console.log(id, passwd);
+  const postLoginInfo = async () => {
+    const data = {
+      id:id,
+      passwd:passwd
+    }
+    axios.post('/login', data).then(response => {
+      const { accessToken } = response.data;
+      // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      // accessToken을 localStorage, cookie 등에 저장하지 않는다!
+      
+    }).catch(error => {
+      // ... 에러 처리
+    });
+    await axios.post(
+        "http://localhost:8090/login",
+        JSON.stringify({ id: id, password: passwd })
+      )
+      .then((res) => {
+        console.log(res);
+        LoginStore.setLoginInfo(new LoginInfoDO(id));
+        LoginStore.setLoginDialogVariable(false);
+        LoginStore.setIsLoggedIn(true);
+        console.log(LoginStore.loginInfo);
+        alert(LoginStore.loginInfo.id + "님 반갑습니다.");
+      })
+      .catch(() => {
+        alert("로그인 오류!");
+      });
     LoginStore.setLoginDialogVariable(false);
   };
   const closeLoginDialog = () => {
@@ -87,7 +116,7 @@ const LoginDialog = () => {
             </div>
           </DialogTitle>
           <DialogContent>
-            {/* <div
+            <div
               style={{
                 fontFamily: "Hi Melody",
                 fontSize: "1.5rem",
@@ -112,18 +141,28 @@ const LoginDialog = () => {
               type="password"
               fullWidth
               onChange={changePasswd}
-            /> */}
+            />
             <div
               style={{
-                fontFamily: "Hi Melody",
-                fontSize: "1.1rem",
-                width: "20rem",
-                marginBottom: "1rem",
+                display:"flex",
+                justifyContent:"center"
               }}
             >
-              구글 계정으로 회원가입 없이 로그인 하세요! 
+              <div
+               style={{marginRight:"2%"}}
+              ><Button
+              style={{ fontFamily: "Yeon Sung"}}
+              >아이디 찾기 </Button></div>
+              <div
+               style={{marginRight:"2%"}}
+              ><Button
+              style={{ fontFamily: "Yeon Sung" }}
+              >비밀번호 찾기</Button></div>
+              <div><Button
+              style={{ fontFamily: "Yeon Sung" }}
+              >회원가입</Button></div>
             </div>
-            {GoogleButton()}
+            {/* {GoogleButton()} */}
           </DialogContent>
           <DialogActions>
             <Button onClick={postLoginInfo}>확인</Button>
@@ -134,13 +173,23 @@ const LoginDialog = () => {
     );
   });
 };
-function App() {
-  return useObserver(() => {
-    return (
-      <div className="App">
+function WelComePage(){
+  return(
+    <>
+    <div className="App">
         <HomeComponent />
         <LoginDialog />
       </div>
+    </>
+  );
+}
+function App() {
+  return useObserver(() => {
+    return (
+      <Router>
+        <Route path='/' exact component={WelComePage} /> 
+        <Route path='/login' component={Login} /> 
+      </Router>
     );
   });
 }

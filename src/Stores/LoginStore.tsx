@@ -2,7 +2,6 @@ import { observable, ObservableSet } from "mobx";
 export class LoginInfoDO{
     constructor(
         public id:string,
-        public userName:string
       ){}
 }
 interface LoginStore {
@@ -16,7 +15,7 @@ interface LoginStore {
 const LoginStore = observable<LoginStore>({
     openLoginDialog:false,
     isLoggedIn:false,
-    loginInfo: new LoginInfoDO("",""),
+    loginInfo: new LoginInfoDO(""),
     setLoginDialogVariable(flag){
         this.openLoginDialog=flag;
     },

@@ -12,6 +12,7 @@ import { useState } from "react";
 import LoginStore, { LoginInfoDO } from "../Stores/LoginStore";
 import { useObserver } from "mobx-react";
 import { GoogleLogout } from "react-google-login";
+import { Link } from "react-router-dom";
 function PhotoItem(Background: any) {
   return (
     <>
@@ -32,15 +33,17 @@ function PhotoItemWithBorder(Background: any) {
     </>
   );
 }
-const MenuBar = () => {
+export const MenuBar = () => {
   const openLoginForm = () => {
+     
       if(LoginStore.isLoggedIn){ // 로그아웃
         LoginStore.setIsLoggedIn(false);
-        LoginStore.setLoginInfo(new LoginInfoDO("",""));
+        LoginStore.setLoginInfo(new LoginInfoDO(""));
         alert("로그아웃 되었습니다!");
       }
       else{ // 로그인 창 띄우기
-        LoginStore.setLoginDialogVariable(true);
+        window.location.assign("/login");
+        // LoginStore.setLoginDialogVariable(true);
       }
   };
   return useObserver(()=>{
@@ -48,7 +51,7 @@ const MenuBar = () => {
         <>
           <div className={"menuBar"}>
             <div className="item">
-              <Button>Home</Button>
+              <Button onClick={()=>{window.location.assign("/")}}>Home</Button>
             </div>
             <div className="item">
               <Button>PHOTO</Button>
@@ -57,7 +60,9 @@ const MenuBar = () => {
               <Button>PLACE</Button>
             </div>
             <div className="item">
-              <Button onClick={openLoginForm}> {LoginStore.isLoggedIn?<>Logout</>:<>Login</>}</Button>
+              <Button onClick={openLoginForm}> 
+              {LoginStore.isLoggedIn?<>Logout</>:<>Login</>}
+              </Button>
             </div>
           </div>
         </>
