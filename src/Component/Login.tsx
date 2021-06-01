@@ -28,6 +28,13 @@ export default function Login() {
         LoginStore.setIsLoggedIn(true);
         console.log(LoginStore.loginInfo);
         alert(LoginStore.loginInfo.id + "님 반갑습니다.");
+        const { accessToken } = res.data;
+        localStorage.setItem("userInfo",JSON.stringify({
+            id : id,
+            username : LoginStore.loginInfo.id,
+            token : accessToken
+          })
+        );
         window.location.assign("/");
       })
       .catch(() => {
