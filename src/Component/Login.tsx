@@ -73,9 +73,10 @@ export default function Login() {
             fontSize: "2rem",
             width: "20rem",
             marginBottom: "1rem",
+            marginTop:"5rem"
           }}
         >
-          로그인
+         <h3> 로그인</h3>
         </div>
         <div
           style={{
