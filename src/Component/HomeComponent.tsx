@@ -40,7 +40,15 @@ export default function HomeComponent() {
   function onScroll() {
     setPosition(window.scrollY);
   }
-
+  const openPhotoAlbum = () => {
+    if (LoginStore.isLoggedIn) {
+      //    서비스렌더링
+    } else {
+      // 로그인 창 띄우기
+      window.location.assign("/login");
+      // LoginStore.setLoginDialogVariable(true);
+    }
+  };
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
     return () => {
@@ -63,6 +71,7 @@ export default function HomeComponent() {
               <br />
               <Button
                 style={{ fontFamily: "Yeon Sung", border: "1px solid black" }}
+                onClick={openPhotoAlbum}
               >
                 지금 앨범만들기
               </Button>
@@ -145,6 +154,7 @@ export default function HomeComponent() {
                   border: "1px solid black",
                   marginTop: "2%",
                 }}
+                onClick={openPhotoAlbum}
               >
                 지금 앨범만들기
               </Button>
