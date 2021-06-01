@@ -125,7 +125,7 @@ export default function HomeComponent() {
             <div
               className="introducetext"
               style={{
-                opacity: (window.scrollY - 1100) / 250,
+                opacity: (window.scrollY - 1120) / 250,
               }}
             >
                 <br />
