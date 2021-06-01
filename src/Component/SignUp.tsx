@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { rootURL } from "../Constants";
 import LoginStore, { LoginInfoDO } from "../Stores/LoginStore";
 import MenuBar from "./MenuBar";
+import crypto from 'crypto';
 export default function SignUp() {
   const [id, setId] = useState("");
   const [passwd, setPasswd] = useState("");
@@ -18,7 +19,7 @@ export default function SignUp() {
     await axios
       .post(
         rootURL+"/signup",
-        JSON.stringify({ email: id, password: passwd, auth:"ROLE_USER"}),
+        JSON.stringify({ email: id, password: crypto.createHash('sha512').update(passwd).digest('base64').toString(), auth:"ROLE_USER"}),
         headerconfig
       )
       .then((res) => {

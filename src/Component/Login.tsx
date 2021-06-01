@@ -4,21 +4,18 @@ import React, { useState } from "react";
 import { rootURL } from "../Constants";
 import LoginStore, { LoginInfoDO } from "../Stores/LoginStore";
 import MenuBar from "./MenuBar";
+import crypto from 'crypto';
 export default function Login() {
   const [id, setId] = useState("");
   const [passwd, setPasswd] = useState("");
   const postLoginInfo = async () => {
-    const data = {
-      id: id,
-      passwd: passwd,
-    };
     const headerconfig:any={
       headers: { "Content-Type": "application/json" },
   }
     await axios
       .post(
         rootURL+"/authenticate",
-        JSON.stringify({ username: id, password: passwd }),
+        JSON.stringify({ username: id, password: crypto.createHash('sha512').update(passwd).digest('base64').toString() }),
         headerconfig
       )
       .then((res) => {
