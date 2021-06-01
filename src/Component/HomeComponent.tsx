@@ -9,6 +9,7 @@ import wishList from "../res/5.jpg";
 import dDay from "../res/6.jpg";
 import { useEffect } from "react";
 import { useState } from "react";
+import LoginStore from "../Stores/LoginStore";
 function PhotoItem(Background: any) {
   return (
     <>
@@ -20,21 +21,44 @@ function PhotoItem(Background: any) {
   );
 }
 function PhotoItemWithBorder(Background: any) {
-    return (
-      <>
-        <div
-          className="photoItems"
-          style={{ backgroundImage: `url(${Background})`, marginBottom:"1%"}}
-        ></div>
-      </>
-    );
-  }
-
+  return (
+    <>
+      <div
+        className="photoItems"
+        style={{ backgroundImage: `url(${Background})`, marginBottom: "1%" }}
+      ></div>
+    </>
+  );
+}
+const MenuBar = () => {
+  const openLoginForm = () => {
+    LoginStore.setLoginDialogVariable(true);
+  };
+  return (
+    <>
+      <div className={"menuBar"}>
+        <div className="item">
+          <Button>Home</Button>
+        </div>
+        <div className="item">
+          <Button>PHOTO</Button>
+        </div>
+        <div className="item">
+          <Button>PLACE</Button>
+        </div>
+        <div className="item">
+          <Button onClick={openLoginForm}>LOGIN</Button>
+        </div>
+      </div>
+    </>
+  );
+};
 export default function HomeComponent() {
   const [position, setPosition] = useState(0);
   function onScroll() {
     setPosition(window.scrollY);
   }
+
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
     return () => {
@@ -44,23 +68,12 @@ export default function HomeComponent() {
   return (
     <>
       <div className={"homeContainer"}>
-        <div className={"menuBar"}>
-          <div className="item">
-            <Button>Home</Button>
-          </div>
-          <div className="item">
-            <Button>PHOTO</Button>
-          </div>
-          <div className="item">
-            <Button>PLACE</Button>
-          </div>
-          <div className="item">
-            <Button>LOGIN</Button>
-          </div>
-        </div>
+        <MenuBar />
         <div className={"wrapper"}>
           <div className="container">
-            <p><strong>인 생 N 컷</strong></p>
+            <p>
+              <strong>인 생 N 컷</strong>
+            </p>
             <div className="meta">
               소중한 추억을 친구, 연인과 함께 쌓아보세요!
               <br /> #Photo #Album #Private
@@ -84,36 +97,40 @@ export default function HomeComponent() {
               className={"introducetext"}
               style={{
                 // opacity: (window.scrollY - 100) / 250,
-                marginTop:"15px"
+                marginTop: "15px",
               }}
             >
-              인생 N컷은 친구, 연인과 함께 <br /> 공유할 수 있는 Private
+              인생 N컷은 친구, 연인과 함께 <br /> 추억을 공유할 수 있는 <br/>Private
               Album입니다.
             </div>
             <div
               className={"introducetext"}
               style={{
-                opacity: (window.scrollY - 320) / 150,
+                opacity: (window.scrollY - 550) / 250,
               }}
             >
-              '우리만의' 앨범에 <br />사진을 업로드 하고
+              '우리만의' 앨범에 <br />
+              사진을 업로드 하고
             </div>
             <div
               className={"introducetext"}
               style={{
-                opacity: (window.scrollY - 480) / 150,
+                opacity: (window.scrollY - 750) / 250,
               }}
             >
-              <br /> 소중한 사람들과 <br />추억을 공유할 수 있어요.
+              <br /> 소중한 사람들과 <br />
+              추억을 공유할 수 있어요.
             </div>
             <div
               className={"introducetext"}
               style={{
-                opacity: (window.scrollY - 700) / 150,
+                opacity: (window.scrollY - 850) / 250,
               }}
             >
               <br />
-              <div className="wishcontainer">{PhotoItemWithBorder(wishList)}</div>
+              <div className="wishcontainer">
+                {PhotoItemWithBorder(wishList)}
+              </div>
               '우리가 가야할 곳'을 저장하고
               <br /> 버킷리스트를 작성할 수도 있죠.
               <br />
@@ -122,21 +139,22 @@ export default function HomeComponent() {
             <div
               className="introducetext"
               style={{
-                opacity: (window.scrollY - 950) / 250,
+                opacity: (window.scrollY - 1250) / 250,
               }}
             >
-            <div className="wishcontainer">{PhotoItemWithBorder(dDay)}</div>
-              디데이를 설정하고, 우리가 함께한 <br />시간도 기억할 수 있어요.
+              <div className="wishcontainer">{PhotoItemWithBorder(dDay)}</div>
+              디데이를 설정하고, 우리가 함께한 <br />
+              시간도 기억할 수 있어요.
               <br />
             </div>
             <div
               className="introducetext"
               style={{
-                opacity: (window.scrollY - 1120) / 250,
+                opacity: (window.scrollY - 1450) / 250,
               }}
             >
-                <br />
-              소중한  '지금'
+              <br />
+              소중한 '지금'
               <br /> 같이 기억하는 건 어때요?
               <br />
               <Button
