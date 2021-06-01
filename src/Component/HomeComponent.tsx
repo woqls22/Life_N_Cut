@@ -96,8 +96,15 @@ export default function HomeComponent() {
                 opacity: (window.scrollY - 320) / 150,
               }}
             >
-              '우리만의' 앨범에 사진을 업로드 하고
-              <br /> 소중한 사람들과 추억을 공유할 수 있어요.
+              '우리만의' 앨범에 <br />사진을 업로드 하고
+            </div>
+            <div
+              className={"introducetext"}
+              style={{
+                opacity: (window.scrollY - 480) / 150,
+              }}
+            >
+              <br /> 소중한 사람들과 <br />추억을 공유할 수 있어요.
             </div>
             <div
               className={"introducetext"}
