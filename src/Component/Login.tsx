@@ -2,7 +2,7 @@ import { TextField, Button } from "@material-ui/core";
 import axios from "axios";
 import React, { useState } from "react";
 import LoginStore, { LoginInfoDO } from "../Stores/LoginStore";
-import { MenuBar } from "./HomeComponent";
+import MenuBar from "./MenuBar";
 export default function Login() {
   const [id, setId] = useState("");
   const [passwd, setPasswd] = useState("");

@@ -1,4 +1,5 @@
 import { Button } from "@material-ui/core";
+import MenuBar from "./MenuBar";
 import React from "react";
 import "../styles/HomeComponent.css";
 import firstImg from "../res/1.jpg";
@@ -33,43 +34,7 @@ function PhotoItemWithBorder(Background: any) {
     </>
   );
 }
-export const MenuBar = () => {
-  const openLoginForm = () => {
-     
-      if(LoginStore.isLoggedIn){ // 로그아웃
-        LoginStore.setIsLoggedIn(false);
-        LoginStore.setLoginInfo(new LoginInfoDO(""));
-        alert("로그아웃 되었습니다!");
-      }
-      else{ // 로그인 창 띄우기
-        window.location.assign("/login");
-        // LoginStore.setLoginDialogVariable(true);
-      }
-  };
-  return useObserver(()=>{
-    return (
-        <>
-          <div className={"menuBar"}>
-            <div className="item">
-              <Button onClick={()=>{window.location.assign("/")}}>Home</Button>
-            </div>
-            <div className="item">
-              <Button>PHOTO</Button>
-            </div>
-            <div className="item">
-              <Button>PLACE</Button>
-            </div>
-            <div className="item">
-              <Button onClick={openLoginForm}> 
-              {LoginStore.isLoggedIn?<>Logout</>:<>Login</>}
-              </Button>
-            </div>
-          </div>
-        </>
-      );
-  })
- 
-};
+
 export default function HomeComponent() {
   const [position, setPosition] = useState(0);
   function onScroll() {
@@ -85,8 +50,7 @@ export default function HomeComponent() {
   return (
     <>
       <div className={"homeContainer"}>
-        <MenuBar />
-        
+        <MenuBar/>
         <div className={"wrapper"}>
           <div className="container">
             <p>
