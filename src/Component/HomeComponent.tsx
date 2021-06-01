@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import LoginStore, { LoginInfoDO } from "../Stores/LoginStore";
 import { useObserver } from "mobx-react";
+import { GoogleLogout } from "react-google-login";
 function PhotoItem(Background: any) {
   return (
     <>
