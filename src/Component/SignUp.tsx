@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { rootURL } from "../Constants";
 import LoginStore, { LoginInfoDO } from "../Stores/LoginStore";
 import MenuBar from "./MenuBar";
-export default function Login() {
+export default function SignUp() {
   const [id, setId] = useState("");
   const [passwd, setPasswd] = useState("");
   const postLoginInfo = async () => {
@@ -13,12 +13,12 @@ export default function Login() {
       passwd: passwd,
     };
     const headerconfig:any={
-      headers: { "Content-Type": "application/json" },
-  }
+        headers: { "Content-Type": "application/json" },
+    }
     await axios
       .post(
-        rootURL+"/authenticate",
-        JSON.stringify({ username: id, password: passwd }),
+        rootURL+"/signup",
+        JSON.stringify({ email: id, password: passwd, auth:"ROLE_USER"}),
         headerconfig
       )
       .then((res) => {
@@ -27,26 +27,18 @@ export default function Login() {
         LoginStore.setLoginDialogVariable(false);
         LoginStore.setIsLoggedIn(true);
         console.log(LoginStore.loginInfo);
-        alert(LoginStore.loginInfo.id + "님 반갑습니다.");
+        alert("회원가입이 완료되었습니다. 가입한 정보로 로그인해주세요.")
         window.location.assign("/");
       })
       .catch(() => {
-        alert("로그인실패! 아이디와 비밀번호를 다시 확인해주세요");
+        alert("회원가입 오류!");
       });
-    LoginStore.setLoginDialogVariable(false);
   };
-  const closeLoginDialog = () => {
-    LoginStore.setLoginDialogVariable(false);
-  };
-
   const changeId = (e: any) => {
     setId(e.target.value);
   };
   const changePasswd = (e: any) => {
     setPasswd(e.target.value);
-  };
-  const responseGoogle = (response: any) => {
-    console.log(response);
   };
   return (
     <>
@@ -69,7 +61,7 @@ export default function Login() {
             marginTop:"5rem"
           }}
         >
-         <h3> 로그인</h3>
+         <h3> 회원가입</h3>
         </div>
         <div
           style={{
@@ -100,7 +92,7 @@ export default function Login() {
         <div
             style={{ display:"flex",justifyContent:"right"}}>
           <Button onClick={postLoginInfo} style={{ fontFamily: "Yeon Sung", border:"1px solid black", width:"100%", marginTop:"1rem" }}>
-            로그인
+            회원가입하기
           </Button>
         </div>
         <div
@@ -116,12 +108,8 @@ export default function Login() {
           <div style={{ marginRight: "2%" }}>
             <Button style={{ fontFamily: "Yeon Sung" }}>비밀번호 찾기</Button>
           </div>
-          <div>
-            <Button style={{ fontFamily: "Yeon Sung" }} onClick={()=>{window.location.assign("/signup")}}>회원가입</Button>
-          </div>
         </div>
       </div>
-      {/* {GoogleButton()} */}
     </>
   );
 }

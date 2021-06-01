@@ -17,6 +17,7 @@ import GoogleLogin from "react-google-login";
 import axios from "axios";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from "./Component/Login";
+import SignUp from "./Component/SignUp";
 
 function WelComePage(){
   return(
@@ -33,6 +34,7 @@ function App() {
       <Router>
         <Route path='/' exact component={WelComePage} /> 
         <Route path='/login' component={Login} /> 
+        <Route path='/signup' component={SignUp} /> 
       </Router>
     );
   });
