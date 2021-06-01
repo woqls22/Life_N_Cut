@@ -4,11 +4,13 @@ import React from "react";
 import LoginStore, { LoginInfoDO } from "../Stores/LoginStore";
 export default function MenuBar() {
   const openLoginForm = () => {
-    if (LoginStore.isLoggedIn) {
+    if (localStorage.getItem("userInfo")) {
       // 로그아웃
       LoginStore.setIsLoggedIn(false);
       LoginStore.setLoginInfo(new LoginInfoDO(""));
+      localStorage.removeItem('userInfo');
       alert("로그아웃 되었습니다!");
+      window.location.assign("/");
     } else {
       // 로그인 창 띄우기
       window.location.assign("/login");
@@ -16,7 +18,7 @@ export default function MenuBar() {
     }
   };
   const openPhotoAlbum = () => {
-    if (LoginStore.isLoggedIn) {
+    if (localStorage.getItem("userInfo")) {
       //    서비스렌더링
     } else {
       // 로그인 창 띄우기
@@ -24,8 +26,13 @@ export default function MenuBar() {
       // LoginStore.setLoginDialogVariable(true);
     }
   };
+  const openSetting=()=>{
+    if (localStorage.getItem("userInfo")) {
+      window.location.assign("/mypage");
+    }
+  }
   const openBucketPlace = () => {
-    if (LoginStore.isLoggedIn) {
+    if (localStorage.getItem("userInfo")) {
       //    서비스렌더링
     } else {
       // 로그인 창 띄우기
@@ -53,8 +60,11 @@ export default function MenuBar() {
             <Button onClick={openBucketPlace}>PLACE</Button>
           </div>
           <div className="item">
+              {localStorage.getItem("userInfo") ?   <Button onClick={openSetting}>SETTING</Button> : <></>}
+          </div>
+          <div className="item">
             <Button onClick={openLoginForm}>
-              {LoginStore.isLoggedIn ? <>Logout</> : <>Login</>}
+              {localStorage.getItem("userInfo") ? <>Logout</> : <>Login</>}
             </Button>
           </div>
         </div>

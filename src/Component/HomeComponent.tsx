@@ -41,7 +41,7 @@ export default function HomeComponent() {
     setPosition(window.scrollY);
   }
   const openPhotoAlbum = () => {
-    if (LoginStore.isLoggedIn) {
+    if (localStorage.getItem("userInfo")) {
       //    서비스렌더링
     } else {
       // 로그인 창 띄우기
@@ -50,6 +50,7 @@ export default function HomeComponent() {
     }
   };
   useEffect(() => {
+    console.log(localStorage.getItem("userInfo"));
     window.addEventListener("scroll", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);

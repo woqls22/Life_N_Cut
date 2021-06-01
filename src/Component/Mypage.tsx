@@ -5,42 +5,34 @@ import { rootURL } from "../Constants";
 import LoginStore, { LoginInfoDO } from "../Stores/LoginStore";
 import MenuBar from "./MenuBar";
 import crypto from 'crypto';
-export default function SignUp() {
+class UserInfo{
+    constructor(
+    id:string,
+    username:string,
+    token:string
+){}}
+export default function MyPage() {
   const [id, setId] = useState("");
   const [passwd, setPasswd] = useState("");
-  const postLoginInfo = async () => {
-    const data = {
-      id: id,
-      passwd: passwd,
-    };
-    const headerconfig:any={
-        headers: { "Content-Type": "application/json" },
-    }
-    await axios
-      .post(
-        rootURL+"/signup",
-        JSON.stringify({ email: id, password: crypto.createHash('sha512').update(passwd).digest('base64').toString(), auth:"ROLE_USER"}),
-        headerconfig
-      )
-      .then((res) => {
-        console.log(res);
-        LoginStore.setLoginInfo(new LoginInfoDO(id));
-        LoginStore.setLoginDialogVariable(false);
-        LoginStore.setIsLoggedIn(true);
-        console.log(LoginStore.loginInfo);
-        alert("회원가입이 완료되었습니다. 가입한 정보로 로그인해주세요.")
-        window.location.assign("/");
-      })
-      .catch(() => {
-        alert("아이디가 중복됩니다. 다른 아이디를 사용하세요");
-      });
+  const [userInfo,setUserInfo]=useState<UserInfo>(new UserInfo("","",""));
+  const deleteId = async () => {
+    
   };
+
+  const closeLoginDialog = () => {
+    LoginStore.setLoginDialogVariable(false);
+  };
+
   const changeId = (e: any) => {
     setId(e.target.value);
   };
   const changePasswd = (e: any) => {
     setPasswd(e.target.value);
   };
+  const responseGoogle = (response: any) => {
+    console.log(response);
+  };
+  
   return (
     <>
       <MenuBar />
@@ -62,7 +54,7 @@ export default function SignUp() {
             marginTop:"5rem"
           }}
         >
-         <h3> 회원가입</h3>
+         <h3> 내 정보</h3>
         </div>
         <div
           style={{
@@ -73,7 +65,7 @@ export default function SignUp() {
         >
           아이디
         </div>
-        <TextField margin="dense" fullWidth onChange={changeId} />
+        {localStorage.getItem("userid")}
         <div
           style={{
             fontFamily: "Hi Melody",
@@ -82,7 +74,39 @@ export default function SignUp() {
             marginTop: "1rem",
           }}
         >
-          비밀번호
+          닉네임
+        </div>
+        <TextField
+          margin="dense"
+          type="password"
+          fullWidth
+          onChange={changePasswd}
+        />
+        <div
+          style={{
+            fontFamily: "Hi Melody",
+            fontSize: "1.5rem",
+            width: "20rem",
+            marginTop: "1rem",
+          }}
+        >
+          생년월일
+        </div>
+        <TextField
+          margin="dense"
+          type="password"
+          fullWidth
+          onChange={changePasswd}
+        />
+        <div
+          style={{
+            fontFamily: "Hi Melody",
+            fontSize: "1.5rem",
+            width: "20rem",
+            marginTop: "1rem",
+          }}
+        >
+          접근가능한 앨범
         </div>
         <TextField
           margin="dense"
@@ -92,8 +116,8 @@ export default function SignUp() {
         />
         <div
             style={{ display:"flex",justifyContent:"right"}}>
-          <Button onClick={postLoginInfo} style={{ fontFamily: "Yeon Sung", border:"1px solid black", width:"100%", marginTop:"1rem" }}>
-            회원가입하기
+          <Button onClick={deleteId} style={{ fontFamily: "Yeon Sung", border:"1px solid black", width:"100%", marginTop:"1rem" }}>
+            계정탈퇴
           </Button>
         </div>
         <div
@@ -109,8 +133,12 @@ export default function SignUp() {
           <div style={{ marginRight: "2%" }}>
             <Button style={{ fontFamily: "Yeon Sung" }}>비밀번호 찾기</Button>
           </div>
+          <div>
+            <Button style={{ fontFamily: "Yeon Sung" }} onClick={()=>{window.location.assign("/signup")}}>회원가입</Button>
+          </div>
         </div>
       </div>
+      {/* {GoogleButton()} */}
     </>
   );
 }

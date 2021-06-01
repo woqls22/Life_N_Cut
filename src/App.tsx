@@ -18,6 +18,7 @@ import axios from "axios";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from "./Component/Login";
 import SignUp from "./Component/SignUp";
+import MyPage from "./Component/Mypage";
 
 function WelComePage(){
   return(
@@ -35,6 +36,7 @@ function App() {
         <Route path='/' exact component={WelComePage} /> 
         <Route path='/login' component={Login} /> 
         <Route path='/signup' component={SignUp} /> 
+        <Route path='/mypage' component={MyPage}/>
       </Router>
     );
   });

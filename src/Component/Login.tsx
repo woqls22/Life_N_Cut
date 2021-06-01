@@ -19,19 +19,21 @@ export default function Login() {
         headerconfig
       )
       .then((res) => {
-        console.log(res);
+        console.log(res.data.token);
         LoginStore.setLoginInfo(new LoginInfoDO(id));
         LoginStore.setLoginDialogVariable(false);
         LoginStore.setIsLoggedIn(true);
-        console.log(LoginStore.loginInfo);
         alert(LoginStore.loginInfo.id + "님 반갑습니다.");
-        const { accessToken } = res.data;
+        const accessToken  = res.data.token;
+        axios.defaults.headers.common['Authorization'] =`Bearer ${accessToken}`;
         localStorage.setItem("userInfo",JSON.stringify({
             id : id,
             username : LoginStore.loginInfo.id,
-            token : accessToken
+            tokenHashed : accessToken
           })
         );
+        localStorage.setItem("userid",id); 
+        localStorage.setItem("accessToken",accessToken); 
         window.location.assign("/");
       })
       .catch(() => {
