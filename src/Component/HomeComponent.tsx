@@ -9,7 +9,8 @@ import wishList from "../res/5.jpg";
 import dDay from "../res/6.jpg";
 import { useEffect } from "react";
 import { useState } from "react";
-import LoginStore from "../Stores/LoginStore";
+import LoginStore, { LoginInfoDO } from "../Stores/LoginStore";
+import { useObserver } from "mobx-react";
 function PhotoItem(Background: any) {
   return (
     <>
@@ -32,26 +33,36 @@ function PhotoItemWithBorder(Background: any) {
 }
 const MenuBar = () => {
   const openLoginForm = () => {
-    LoginStore.setLoginDialogVariable(true);
+      if(LoginStore.isLoggedIn){ // 로그아웃
+        LoginStore.setIsLoggedIn(false);
+        LoginStore.setLoginInfo(new LoginInfoDO("",""));
+        alert("로그아웃 되었습니다!");
+      }
+      else{ // 로그인 창 띄우기
+        LoginStore.setLoginDialogVariable(true);
+      }
   };
-  return (
-    <>
-      <div className={"menuBar"}>
-        <div className="item">
-          <Button>Home</Button>
-        </div>
-        <div className="item">
-          <Button>PHOTO</Button>
-        </div>
-        <div className="item">
-          <Button>PLACE</Button>
-        </div>
-        <div className="item">
-          <Button onClick={openLoginForm}>LOGIN</Button>
-        </div>
-      </div>
-    </>
-  );
+  return useObserver(()=>{
+    return (
+        <>
+          <div className={"menuBar"}>
+            <div className="item">
+              <Button>Home</Button>
+            </div>
+            <div className="item">
+              <Button>PHOTO</Button>
+            </div>
+            <div className="item">
+              <Button>PLACE</Button>
+            </div>
+            <div className="item">
+              <Button onClick={openLoginForm}> {LoginStore.isLoggedIn?<>Logout</>:<>Login</>}</Button>
+            </div>
+          </div>
+        </>
+      );
+  })
+ 
 };
 export default function HomeComponent() {
   const [position, setPosition] = useState(0);
@@ -69,6 +80,7 @@ export default function HomeComponent() {
     <>
       <div className={"homeContainer"}>
         <MenuBar />
+        
         <div className={"wrapper"}>
           <div className="container">
             <p>

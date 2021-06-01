@@ -8,6 +8,7 @@
 .menuBar{
     position:fixed;
     width:100%;
+    flex-direction: row;
     height:47px;
     z-index: 900;
     left:0;
@@ -16,6 +17,9 @@
     justify-content: center;
     align-items: center;
     background-color: white;
+}
+.statusBar{
+    position:relative;
 }
 .menuBar .item{
     margin-right: 1%;
