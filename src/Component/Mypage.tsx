@@ -12,6 +12,8 @@ import { rootURL } from "../Constants";
 import LoginStore, { LoginInfoDO } from "../Stores/LoginStore";
 import MenuBar from "./MenuBar";
 import crypto from "crypto";
+import "../styles/AlbumList.css";
+import DeleteSharpIcon from "@material-ui/icons/DeleteSharp";
 class UserInfo {
   constructor(id: string, username: string, token: string) {}
 }
@@ -88,7 +90,7 @@ export default function MyPage() {
               justifyContent: "center",
               marginLeft: "auto",
               marginRight: "auto",
-              marginTop: "10%",
+              marginTop: "47px",
             }}
           >
             <div
@@ -96,8 +98,7 @@ export default function MyPage() {
                 fontFamily: "Cafe24SsurroundAir",
                 fontSize: "2rem",
                 width: "20rem",
-                marginBottom: "1rem",
-                marginTop: "5rem",
+                marginTop:"2rem"
               }}
             >
               <h3> 내 정보</h3>
@@ -109,7 +110,7 @@ export default function MyPage() {
                 width: "20rem",
               }}
             >
-              아이디
+              <strong>아이디</strong>
             </div>
             <p
               style={{
@@ -127,7 +128,8 @@ export default function MyPage() {
                 marginTop: "1rem",
               }}
             >
-              닉네임
+              <strong>닉네임</strong>
+              
             </div>
             <p
               style={{
@@ -145,7 +147,7 @@ export default function MyPage() {
                 marginTop: "1rem",
               }}
             >
-              생년월일
+               <strong>생년월일</strong>
             </div>
             <p
               style={{
@@ -160,14 +162,23 @@ export default function MyPage() {
                 fontFamily: "Hi Melody",
                 fontSize: "1.5rem",
                 width: "20rem",
-                marginTop: "1rem",
               }}
             >
-              내 앨범
+               <strong>나의 Private Album</strong>
             </div>
-            {AlbumInfo.map((item: AlbumDO) => {
-              return <>{item.albumName}<br/></>;
-            })}
+            <div className={"myalbumcardcontainer"}>
+              {AlbumInfo.map((item: AlbumDO) => {
+                return (
+                  <>
+                    <div className="btngroup">
+                      <div className="item">
+                       <div><strong>{item.albumName}</strong></div> 
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
+            </div>
             <div style={{ display: "flex", justifyContent: "right" }}>
               <Button
                 onClick={setdeleteDialogOpen}
@@ -176,6 +187,7 @@ export default function MyPage() {
                   border: "1px solid black",
                   width: "100%",
                   marginTop: "1rem",
+                  marginBottom:"1rem"
                 }}
               >
                 계정탈퇴

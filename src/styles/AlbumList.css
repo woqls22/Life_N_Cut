@@ -18,3 +18,40 @@
     justify-content: center;
     align-items: center;
 }
+.myalbumcardcontainer{
+    max-height:300px;
+    margin-top:1rem;
+    overflow-y:auto;
+    border:1px solid black;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: #f6f6f6;
+    /* border-radius: 10px 10px 10px 10px; */
+}
+.myalbumcardcontainer::-webkit-scrollbar {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 8px;
+    display:flex;
+  }
+  .myalbumcardcontainer::-webkit-scrollbar-thumb {
+    background-color: #928c8c;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+  .myalbumcardcontainer::-webkit-scrollbar-track {
+    background-color: rgb(255, 254, 254);
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+  }
+.myalbumcardcontainer .item{
+    width:100%;
+    font-family:"Cafe24SsurroundAir";
+    font-size: 1.2rem;
+    margin-top:10px;
+    margin-bottom: 10px;
+    text-align:center;
+}

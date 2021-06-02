@@ -144,7 +144,7 @@ export default function PhotoMain() {
             fontFamily: "Cafe24SsurroundAir",
             fontSize: "2rem",
             width: "20rem",
-            marginTop: "5rem",
+            marginTop: "47px",
           }}
         >
           <h3> ALBUM</h3>
