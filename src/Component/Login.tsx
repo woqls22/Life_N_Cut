@@ -68,7 +68,7 @@ export default function Login() {
       >
         <div
           style={{
-            fontFamily: "Hi Melody",
+            fontFamily: "Cafe24SsurroundAir",
             fontSize: "2rem",
             width: "20rem",
             marginBottom: "1rem",

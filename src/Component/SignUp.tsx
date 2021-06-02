@@ -4,22 +4,37 @@ import React, { useState } from "react";
 import { rootURL } from "../Constants";
 import LoginStore, { LoginInfoDO } from "../Stores/LoginStore";
 import MenuBar from "./MenuBar";
-import crypto from 'crypto';
+import crypto from "crypto";
 export default function SignUp() {
   const [id, setId] = useState("");
   const [passwd, setPasswd] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [birthday, setBirthday] = useState("");
   const postLoginInfo = async () => {
     const data = {
       id: id,
       passwd: passwd,
+
+      nickname: nickname,
+      birthday: birthday,
     };
-    const headerconfig:any={
-        headers: { "Content-Type": "application/json" },
-    }
+    const headerconfig: any = {
+      headers: { "Content-Type": "application/json" },
+    };
     await axios
       .post(
-        rootURL+"/signup",
-        JSON.stringify({ email: id, password: crypto.createHash('sha512').update(passwd).digest('base64').toString(), auth:"ROLE_USER"}),
+        rootURL + "/signup",
+        JSON.stringify({
+          email: id,
+          password: crypto
+            .createHash("sha512")
+            .update(passwd)
+            .digest("base64")
+            .toString(),
+          auth: "ROLE_USER",
+          nickname: nickname,
+          birthday: birthday,
+        }),
         headerconfig
       )
       .then((res) => {
@@ -28,7 +43,7 @@ export default function SignUp() {
         LoginStore.setLoginDialogVariable(false);
         LoginStore.setIsLoggedIn(true);
         console.log(LoginStore.loginInfo);
-        alert("회원가입이 완료되었습니다. 가입한 정보로 로그인해주세요.")
+        alert("회원가입이 완료되었습니다. 가입한 정보로 로그인해주세요.");
         window.location.assign("/");
       })
       .catch(() => {
@@ -40,6 +55,12 @@ export default function SignUp() {
   };
   const changePasswd = (e: any) => {
     setPasswd(e.target.value);
+  };
+  const changeNickName = (e: any) => {
+    setNickname(e.target.value);
+  };
+  const changeBirthday = (e: any) => {
+    setBirthday(e.target.value);
   };
   return (
     <>
@@ -55,14 +76,14 @@ export default function SignUp() {
       >
         <div
           style={{
-            fontFamily: "Hi Melody",
+            fontFamily: "Cafe24SsurroundAir",
             fontSize: "2rem",
             width: "20rem",
             marginBottom: "1rem",
-            marginTop:"5rem"
+            marginTop: "5rem",
           }}
         >
-         <h3> 회원가입</h3>
+          <h3> 회원가입</h3>
         </div>
         <div
           style={{
@@ -91,8 +112,47 @@ export default function SignUp() {
           onChange={changePasswd}
         />
         <div
-            style={{ display:"flex",justifyContent:"right"}}>
-          <Button onClick={postLoginInfo} style={{ fontFamily: "Yeon Sung", border:"1px solid black", width:"100%", marginTop:"1rem" }}>
+          style={{
+            fontFamily: "Hi Melody",
+            fontSize: "1.5rem",
+            width: "20rem",
+            marginTop: "1rem",
+          }}
+        >
+          이름(닉네임)
+        </div>
+        <TextField
+          margin="dense"
+          type="text"
+          fullWidth
+          onChange={changeNickName}
+        />
+        <div
+          style={{
+            fontFamily: "Hi Melody",
+            fontSize: "1.5rem",
+            width: "20rem",
+            marginTop: "1rem",
+          }}
+        >
+          생년월일
+        </div>
+        <TextField
+          margin="dense"
+          type="date"
+          fullWidth
+          onChange={changeBirthday}
+        />
+        <div style={{ display: "flex", justifyContent: "right" }}>
+          <Button
+            onClick={postLoginInfo}
+            style={{
+              fontFamily: "Yeon Sung",
+              border: "1px solid black",
+              width: "100%",
+              marginTop: "1rem",
+            }}
+          >
             회원가입하기
           </Button>
         </div>

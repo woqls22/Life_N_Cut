@@ -8,7 +8,9 @@ export default function MenuBar() {
       // 로그아웃
       LoginStore.setIsLoggedIn(false);
       LoginStore.setLoginInfo(new LoginInfoDO(""));
-      localStorage.removeItem('userInfo');
+      localStorage.removeItem("userInfo");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("userid");
       alert("로그아웃 되었습니다!");
       window.location.assign("/");
     } else {
@@ -26,11 +28,11 @@ export default function MenuBar() {
       // LoginStore.setLoginDialogVariable(true);
     }
   };
-  const openSetting=()=>{
+  const openSetting = () => {
     if (localStorage.getItem("userInfo")) {
       window.location.assign("/mypage");
     }
-  }
+  };
   const openBucketPlace = () => {
     if (localStorage.getItem("userInfo")) {
       //    서비스렌더링
@@ -59,9 +61,16 @@ export default function MenuBar() {
           <div className="item">
             <Button onClick={openBucketPlace}>PLACE</Button>
           </div>
-          <div className="item">
-              {localStorage.getItem("userInfo") ?   <Button onClick={openSetting}>SETTING</Button> : <></>}
-          </div>
+
+          {localStorage.getItem("userInfo") ? (
+            <div className="item">
+              {" "}
+              <Button onClick={openSetting}>SETTING</Button>{" "}
+            </div>
+          ) : (
+            <></>
+          )}
+
           <div className="item">
             <Button onClick={openLoginForm}>
               {localStorage.getItem("userInfo") ? <>Logout</> : <>Login</>}
