@@ -31,7 +31,9 @@ export default function MyPage() {
       axios.get(rootURL + "/user/" + userId).then((res) => {
         setId(res.data.email);
         setNickname(res.data.nickname);
-        setBirthday(res.data.birthday);
+        if(res.data.birthday){
+          setBirthday(res.data.birthday);
+        }
       });
     }
   }, []);

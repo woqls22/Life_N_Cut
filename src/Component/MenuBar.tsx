@@ -22,6 +22,7 @@ export default function MenuBar() {
   const openPhotoAlbum = () => {
     if (localStorage.getItem("userInfo")) {
       //    서비스렌더링
+      window.location.assign("/photo/main");
     } else {
       // 로그인 창 띄우기
       window.location.assign("/login");
@@ -65,7 +66,7 @@ export default function MenuBar() {
           {localStorage.getItem("userInfo") ? (
             <div className="item">
               {" "}
-              <Button onClick={openSetting}>SETTING</Button>{" "}
+              <Button onClick={openSetting}>MY</Button>{" "}
             </div>
           ) : (
             <></>

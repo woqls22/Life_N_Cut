@@ -43,6 +43,7 @@ export default function HomeComponent() {
   const openPhotoAlbum = () => {
     if (localStorage.getItem("userInfo")) {
       //    서비스렌더링
+      window.location.assign("/photo/main");
     } else {
       // 로그인 창 띄우기
       window.location.assign("/login");
@@ -88,7 +89,6 @@ export default function HomeComponent() {
             <div
               className={"introducetext"}
               style={{
-                // opacity: (window.scrollY - 100) / 250,
                 marginTop: "15px",
               }}
             >

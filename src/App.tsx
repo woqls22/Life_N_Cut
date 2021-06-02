@@ -19,6 +19,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from "./Component/Login";
 import SignUp from "./Component/SignUp";
 import MyPage from "./Component/Mypage";
+import PhotoMain from "./Component/PhotoMain";
 
 function WelComePage(){
   return(
@@ -37,6 +38,7 @@ function App() {
         <Route path='/login' component={Login} /> 
         <Route path='/signup' component={SignUp} /> 
         <Route path='/mypage' component={MyPage}/>
+        <Route path='/photo/main' component={PhotoMain}/>
       </Router>
     );
   });

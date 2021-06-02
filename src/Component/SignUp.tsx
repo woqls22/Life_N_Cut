@@ -44,7 +44,7 @@ export default function SignUp() {
         LoginStore.setIsLoggedIn(true);
         console.log(LoginStore.loginInfo);
         alert("회원가입이 완료되었습니다. 가입한 정보로 로그인해주세요.");
-        window.location.assign("/");
+        window.location.assign("/login");
       })
       .catch(() => {
         alert("아이디가 중복됩니다. 다른 아이디를 사용하세요");
