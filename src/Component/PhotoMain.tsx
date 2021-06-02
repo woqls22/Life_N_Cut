@@ -11,6 +11,9 @@ import { UserInfo } from "os";
 import React, { useEffect, useState } from "react";
 import { rootURL } from "../Constants";
 import MenuBar from "./MenuBar";
+import "../styles/AlbumList.css";
+import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
+
 export class AlbumInfo {
   constructor(
     public id: string,
@@ -19,31 +22,94 @@ export class AlbumInfo {
     public files: any[]
   ) {}
 }
+function deleteAlbum(id: string) {
+  let accessToken = localStorage.getItem("accessToken");
+  let userId = localStorage.getItem("userid");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  axios.delete(rootURL + "/album/" + id).then((res) => {
+    alert("앨범이 삭제되었습니다.");
+    window.location.assign("/photo/main");
+  });
+}
 export default function PhotoMain() {
   const [id, setId] = useState("");
   const [nickname, setNickname] = useState("");
   const [birthday, setBirthday] = useState("");
   const [createDialog, setCreateDialog] = useState(false);
+  const [deleteDialog, setDeleteDialog]=useState(false);
+  const [deleteTarget, setDeleteTarget]=useState<AlbumInfo>(new AlbumInfo("","",[],[]));
   const [albumName, setAlbumName] = useState("");
   const [accessToken_usr, setAccessToken_usr] = useState("");
   const [albumInfoList, setAlbumInfoList] = useState<any[]>([]);
+  const [dday, setDday] = useState("");
+  const [description, setDescription] = useState("");
+  const [ddayDescription, setDdayDescription] = useState("");
   const openCreateAlbumDialog = () => {
     setCreateDialog(true);
   };
+  const closeDeleteDialog=()=>{
+    setDeleteDialog(false);
+  }
   const closeCreateAlbumDialog = () => {
     setCreateDialog(false);
   };
   const changeAlbumName = (e: any) => {
     setAlbumName(e.target.value);
   };
+  const changeDday = (e: any) => {
+    setDday(e.target.value);
+  };
+  const changeDdayDescription = (e: any) => {
+    setDdayDescription(e.target.value);
+  };
+  const changeDescription = (e: any) => {
+    setDescription(e.target.value);
+  };
   const postCreateAlbum = () => {
     let accessToken = localStorage.getItem("accessToken");
     let userId = localStorage.getItem("userid");
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-    axios.post(rootURL + "/album/" + userId + "/" + albumName).then((res) => {
-      alert("앨범 등록이 완료되었습니다!");
-      window.location.assign("/photo/main");
-    });
+    let today = new Date();
+    let year = today.getFullYear(); // 년도
+    let month = today.getMonth() + 1; // 월
+    let date = today.getDate(); // 날짜
+    let day = today.getDay();
+    let todayStr = year + "년" + month + "월" + date + "일";
+    if(dday.length==0){
+      setDday("none");
+    }
+    if(albumName.length==0){
+      alert("앨범이름을 입력해주세요!");
+      return;
+    }
+    if(description.length==0){
+      alert("앨범설명을 입력해주세요!");
+      return;
+    }
+    if(ddayDescription.length==0){
+      setDdayDescription("none");
+      return;
+    }
+    axios
+      .post(
+        rootURL +
+          "/album/" +
+          userId +
+          "/" +
+          albumName +
+          "/" +
+          todayStr +
+          "/" +
+          dday +
+          "/" +
+          description +
+          "/" +
+          ddayDescription
+      )
+      .then((res) => {
+        alert("앨범 등록이 완료되었습니다!");
+        window.location.assign("/photo/main");
+      });
   };
   useEffect(() => {
     if (localStorage.getItem("userid")) {
@@ -90,20 +156,18 @@ export default function PhotoMain() {
             width: "20rem",
           }}
         >
-          Private Album
+          나의 Private Album
         </div>
-        <div
-          style={{
-            minHeight: "500px",
-            border: "1px solid black",
-            overflowY: "auto",
-          }}
-        >
+        <div className={"albumcardcontainer"}>
           {albumInfoList.map((item: AlbumInfo) => {
             return (
               <>
-                {item.albumName}
-                <br />
+                <div className="btngroup">
+                  <Button className="item">
+                    <strong>{item.albumName}</strong>
+                  </Button>
+                  <Button onClick={()=>{setDeleteTarget(item); setDeleteDialog(true)}}> <DeleteSharpIcon /></Button>
+                </div>
               </>
             );
           })}
@@ -147,21 +211,83 @@ export default function PhotoMain() {
           }}
         >
           <>
-            앨범 이름을 적어주세요.
+            앨범 이름
             <div
               style={{
                 fontFamily: "Cafe24SsurroundAir",
                 fontSize: "1rem",
-                marginTop: "1rem",
-                marginBottom: "2rem",
+                marginBottom: "1rem",
+                width: "20rem",
               }}
-            ></div>
-            <TextField onChange={changeAlbumName} fullWidth={true} />
+            >
+              <TextField onChange={changeAlbumName} fullWidth={true} />
+            </div>
+            기념일
+            <div
+              style={{
+                fontFamily: "Cafe24SsurroundAir",
+                fontSize: "1rem",
+                marginBottom: "1rem",
+              }}
+            >
+              <TextField
+                onChange={changeDdayDescription}
+                fullWidth={true}
+                type="date"
+              />
+            </div>
+            기념일 설명
+            <div
+              style={{
+                fontFamily: "Cafe24SsurroundAir",
+                fontSize: "1rem",
+                marginBottom: "1rem",
+              }}
+            >
+              <TextField onChange={changeDday} fullWidth={true} />
+            </div>
+            앨범 설명
+            <div
+              style={{
+                fontFamily: "Cafe24SsurroundAir",
+                fontSize: "1rem",
+                marginBottom: "1rem",
+              }}
+            >
+              <TextField onChange={changeDescription} fullWidth={true} />
+            </div>
           </>
         </DialogContent>
         <DialogActions>
           <Button onClick={postCreateAlbum}>확인</Button>
           <Button onClick={closeCreateAlbumDialog}>취소</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={deleteDialog}>
+        <DialogTitle
+          style={{
+            fontFamily: "Cafe24SsurroundAir",
+            fontSize: "1.5rem",
+          }}
+        >
+          앨범 삭제
+        </DialogTitle>
+        <DialogContent
+          style={{
+            fontFamily: "Cafe24SsurroundAir",
+            fontSize: "0.8rem",
+          }}
+        >
+          <>
+            다음 앨범이 삭제됩니다. 계속하시겠습니까?<br/><br/>
+            <div style={{textAlign:"center", marginTop:"1rem", marginBottom:"1rem", fontSize:"1.1rem"}}>
+            {deleteTarget.albumName}
+            </div>
+          </>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={()=>{deleteAlbum(deleteTarget.id)}}>확인</Button>
+          <Button onClick={closeDeleteDialog}>취소</Button>
         </DialogActions>
       </Dialog>
     </>
