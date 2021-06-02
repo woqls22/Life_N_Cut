@@ -17,8 +17,9 @@ import DeleteSharpIcon from "@material-ui/icons/DeleteSharp";
 class UserInfo {
   constructor(id: string, username: string, token: string) {}
 }
-class AlbumDO {
+export class AlbumDO {
   albumName: any;
+  id: any;
   constructor(
     id: string,
     albumName: string,
@@ -50,7 +51,7 @@ export default function MyPage() {
         if (res.data.birthday) {
           setBirthday(res.data.birthday);
         }
-        setAlbumInfo(res.data.albumList as AlbumDO[]);
+        axios.get(rootURL + "/user/" + userId).then((res) => {setAlbumInfo(res.data.albumList as AlbumDO[]);});
       });
     }
   }, []);
