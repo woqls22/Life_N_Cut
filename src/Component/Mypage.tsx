@@ -18,8 +18,13 @@ class UserInfo {
   constructor(id: string, username: string, token: string) {}
 }
 export class AlbumDO {
-  albumName: any;
-  id: any;
+    id: string;
+    albumName: string;
+    createdate: string;
+    dday: string;
+    description: string;
+    ddayDescription: string;
+    authorIdList: string[];
   constructor(
     id: string,
     albumName: string,
@@ -28,7 +33,15 @@ export class AlbumDO {
     description: string,
     ddayDescription: string,
     authorIdList: string[]
-  ) {}
+  ) {
+    this.id=id;
+    this.albumName=albumName;
+    this.createdate=createdate;
+    this.dday=dday;
+    this.description=description;
+    this.ddayDescription=ddayDescription;
+    this.authorIdList=authorIdList;
+  }
 }
 export default function MyPage() {
   const [userEmailId, setId] = useState("");

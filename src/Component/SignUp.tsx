@@ -139,7 +139,7 @@ export default function SignUp() {
         </div>
         <TextField
           margin="dense"
-          type="date"
+          type="month"
           fullWidth
           onChange={changeBirthday}
         />

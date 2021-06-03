@@ -64,9 +64,20 @@
     text-align: center;
     padding-top: 2%;
   }
+  .albumMetaText{
+    font-family: 'Yeon Sung', cursive;
+    font-size: 1.0rem;
+    color:white;
+    text-align: center;
+    max-width: 20rem;
+    width:100%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+  }
   .dateText{
     font-family: 'Yeon Sung', cursive;
-    font-size: 1.2rem;
+    font-size: 1.0rem;
     color:white;
     margin-top: 5%;
     text-align: center;
@@ -180,10 +191,9 @@
       filter: blur(1px);
   }
   .MuiAccordionSummary-content {
-    margin : 0 0 !important;
+    flex-grow: 0 !important;
   }
   .MuiAccordionSummary-root{
-    padding : 0 0 !important;
   }
   @keyframes fadein {
     from {

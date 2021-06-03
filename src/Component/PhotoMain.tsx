@@ -153,7 +153,9 @@ export default function PhotoMain() {
                   justifyContent: "center",
                   marginLeft: "auto",
                   marginRight: "auto",
+                  backgroundColor:"white"
                 }}
+                id="uploadpic"
               >
                 추억 쌓기
               </Button>
@@ -170,7 +172,9 @@ export default function PhotoMain() {
                   justifyContent: "center",
                   marginLeft: "auto",
                   marginRight: "auto",
+                  backgroundColor:"white"
                 }}
+                id="invitebtn"
               >
                 앨범 초대하기
               </Button>
@@ -301,7 +305,7 @@ export default function PhotoMain() {
                     <TextField
                       onChange={changeDdayDescription}
                       fullWidth={true}
-                      type="date"
+                      type="month"
                     />
                   </div>
                   기념일 설명

@@ -106,7 +106,7 @@ export default function PhotoPostDialog() {
             </div>
             <TextField
               margin="dense"
-              type="date"
+              type="month"
               fullWidth
               onChange={changeDate}
             />

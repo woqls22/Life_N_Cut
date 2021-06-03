@@ -10,26 +10,39 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import DeleteSharpIcon from "@material-ui/icons/DeleteSharp";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@material-ui/core";
-
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Checkbox,
+} from "@material-ui/core";
+function getDateCount(dateStr:string){
+  let date = new Date(dateStr);
+  let today = new Date();
+  var gap = today.getTime() - date.getTime();
+  let result= Math.floor(gap / (1000 * 60 * 60 * 24))+1;
+  return parseInt(result.toString());
+}
 async function fetchData(id: string) {
   return await axios.get(rootURL + "/imgs/" + id);
 }
 
 export class ImgDO {
-  fileId:string;
+  fileId: string;
   imgUrl: string;
   date: string;
   description: string;
   albumId: string;
   constructor(
-    fileId:string,
+    fileId: string,
     imgUrl: string,
     date: string,
     description: string,
     albumId: string
   ) {
-    this.fileId=fileId;
+    this.fileId = fileId;
     this.imgUrl = imgUrl;
     this.date = date;
     this.description = description;
@@ -39,11 +52,12 @@ export class ImgDO {
 
 export default function PhotoAlbum() {
   const [expanded, setExpanded] = useState<any>("false");
-  const [fileId,setFileId]=useState("");
+  const [fileId, setFileId] = useState("");
   const handleChange = (panel: any) => (event: any, isExpanded: any) => {
     setExpanded(isExpanded ? panel : false);
   };
-  async function deletePic(id:string){
+  const [blackTheme, setBlackTheme] = useState(false);
+  async function deletePic(id: string) {
     let accessToken = localStorage.getItem("accessToken");
     let userId = localStorage.getItem("userid");
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -53,31 +67,66 @@ export default function PhotoAlbum() {
         let tmpimgList: any[] = [];
         res.data.map((item: any) => {
           tmpimgList.push(
-            new ImgDO(item.fileId,item.filename, item.date, item.description, item.albumId)
+            new ImgDO(
+              item.fileId,
+              item.filename,
+              item.date,
+              item.description,
+              item.albumId
+            )
           );
         });
         setImgList(tmpimgList);
         AlbumStore.AlbumImgList = tmpimgList;
-        AlbumStore.deletePicDialog=false;
+        AlbumStore.deletePicDialog = false;
         setFileId("");
       });
     });
   }
   const [imgList, setImgList] = useState<ImgDO[]>([]);
-  const openDeleteDialog=(file_id:string)=>{
-    AlbumStore.deletePicDialog=true;
+  const openDeleteDialog = (file_id: string) => {
+    AlbumStore.deletePicDialog = true;
     setFileId(file_id);
-  }
-  const closeDeleteDialog=()=>{
-    AlbumStore.deletePicDialog=false;
+  };
+  const closeDeleteDialog = () => {
+    AlbumStore.deletePicDialog = false;
     setFileId("");
-  }
+  };
+  const changeTheme = (event: any) => {
+    if (event.target.checked == true) {
+      setBlackTheme(true);
+      let elem: HTMLElement = document.getElementsByClassName(
+        "root"
+      )[0] as HTMLElement;
+      elem.style.backgroundColor = "black";
+      elem = document.getElementById("themeselector") as HTMLElement;
+      elem.style.color = "white";
+      elem = document.getElementById("invitebtn") as HTMLElement;
+      elem.style.color = "black";
+      elem = document.getElementById("uploadpic") as HTMLElement;
+      elem.style.color = "black";
+    } else {
+      setBlackTheme(false);
+      let elem: HTMLElement = document.getElementsByClassName(
+        "root"
+      )[0] as HTMLElement;
+      elem.style.backgroundColor = "white";
+      elem = document.getElementById("themeselector") as HTMLElement;
+      elem.style.color = "black";
+    }
+  };
   useEffect(() => {
     fetchData(AlbumStore.clickedAlbum.id).then((res) => {
       let tmpimgList: any[] = [];
       res.data.map((item: any) => {
         tmpimgList.push(
-          new ImgDO(item.fileId,item.filename, item.date, item.description, item.albumId)
+          new ImgDO(
+            item.fileId,
+            item.filename,
+            item.date,
+            item.description,
+            item.albumId
+          )
         );
       });
       setImgList(tmpimgList);
@@ -87,38 +136,112 @@ export default function PhotoAlbum() {
   return useObserver(() => {
     return (
       <>
-        <div className={"photoList"}>
+        <div
+          style={{
+            width: "20rem",
+            justifyContent: "center",
+            textAlign: "center",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <Accordion
+            expanded={expanded === "panel"}
+            onChange={handleChange("panel")}
+            square={false}
+            style={{
+              boxShadow: "none",
+              border: "1px solid black",
+            }}
+          >
+            <AccordionSummary
+              aria-controls="panel4bh-content"
+              id="panel4bh-header"
+              style={{
+                textAlign: "center",
+                fontFamily: "Yeon Sung",
+                marginTop: "-2%",
+                marginBottom: "-2%",
+              }}
+            >
+              {AlbumStore.clickedAlbum.albumName}앨범 정보
+            </AccordionSummary>
+            <AccordionDetails>
+              <div className={"albumMetaText"} style={{ color: "black" }}>
+                {AlbumStore.clickedAlbum.dday} {" "+getDateCount(AlbumStore.clickedAlbum.ddayDescription)+"일"}
+                <br />
+                {AlbumStore.clickedAlbum.ddayDescription.split("-")[0]+"년"+AlbumStore.clickedAlbum.ddayDescription.split("-")[1]+"월"+AlbumStore.clickedAlbum.ddayDescription.split("-")[2]+"일"}
+                <br/>
+                앨범접근권한 : {AlbumStore.clickedAlbum.authorIdList.map((id:any)=>{return(<>{id+" "}</>)})}
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+        <div
+          style={{
+            width: "20rem",
+            justifyContent: "center",
+            marginLeft: "auto",
+            marginRight: "auto",
+            display: "flex",
+          }}
+        >
+          <Checkbox onChange={changeTheme} />
+          <div
+            id="themeselector"
+            style={{
+              verticalAlign: "middle",
+              marginTop: "auto",
+              marginBottom: "auto",
+            }}
+          >
+            Black Theme
+          </div>
+        </div>
+        <div
+          className={"photoList"}
+          style={{
+            backgroundColor: blackTheme ? "black" : "white",
+            width: "100%",
+          }}
+        >
           {AlbumStore.AlbumImgList.map((item: ImgDO) => {
             return (
               <>
-                <div className={"tabRow" + 1}
-                 style={{
-                  boxShadow: "none",
-                  width: "20rem",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-                >
                 <div
-                        className={"photoListItem"}
-                        style={{
-                          backgroundImage:
-                            "url(" +
-                            rootURL +
-                            "/imgURL?imagename=" +
-                            item.imgUrl +
-                            ")",
-                        }}
-                      ></div>
-                       <div className="albumtextbox">
-                        <div className={"dateText"}>
-                          {item.date}
-                          <div className={"descriptionText"}>
-                            {item.description}
-                            <DeleteSharpIcon style={{float:"right"}} onClick={()=>{openDeleteDialog(item.fileId)}}/>
-                          </div>
-                        </div>
+                  className={"tabRow" + 1}
+                  style={{
+                    boxShadow: "none",
+                    width: "20rem",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                >
+                  <div
+                    className={"photoListItem"}
+                    style={{
+                      backgroundImage:
+                        "url(" +
+                        rootURL +
+                        "/imgURL?imagename=" +
+                        item.imgUrl +
+                        ")",
+                    }}
+                  ></div>
+                  <div className="albumtextbox">
+                    <div className={"dateText"}>
+                      {item.date}
+                      <div className={"descriptionText"}>
+                        {item.description}
+                        <DeleteSharpIcon
+                          style={{ float: "right" }}
+                          onClick={() => {
+                            openDeleteDialog(item.fileId);
+                          }}
+                        />
                       </div>
+                    </div>
+                  </div>
                   {/* <Accordion
                     expanded={expanded === "panel" + item.imgUrl}
                     onChange={handleChange("panel" + item.imgUrl)}
@@ -197,36 +320,36 @@ export default function PhotoAlbum() {
           })}
         </div>
         <Dialog open={AlbumStore.deletePicDialog}>
-              <DialogTitle
-                style={{
-                  fontFamily: "Cafe24SsurroundAir",
-                  fontSize: "1.5rem",
-                }}
-              >
-                사진 삭제
-              </DialogTitle>
-              <DialogContent
-                style={{
-                  fontFamily: "Cafe24SsurroundAir",
-                  fontSize: "0.8rem",
-                }}
-              >
-                <>
-                  해당 사진을 삭제하시겠습니까?
-                  <br />
-                </>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  onClick={() => {
-                    deletePic(fileId);
-                  }}
-                >
-                  확인
-                </Button>
-                <Button onClick={closeDeleteDialog}>취소</Button>
-              </DialogActions>
-            </Dialog>
+          <DialogTitle
+            style={{
+              fontFamily: "Cafe24SsurroundAir",
+              fontSize: "1.5rem",
+            }}
+          >
+            사진 삭제
+          </DialogTitle>
+          <DialogContent
+            style={{
+              fontFamily: "Cafe24SsurroundAir",
+              fontSize: "0.8rem",
+            }}
+          >
+            <>
+              해당 사진을 삭제하시겠습니까?
+              <br />
+            </>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => {
+                deletePic(fileId);
+              }}
+            >
+              확인
+            </Button>
+            <Button onClick={closeDeleteDialog}>취소</Button>
+          </DialogActions>
+        </Dialog>
       </>
     );
   });
