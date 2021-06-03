@@ -35,7 +35,7 @@
   }
   .imgItem:hover{
     -webkit-filter: grayscale(80%);
-    -webkit-transform:scale(1.06); 
+    -webkit-transform:scale(1.5); 
     transition: all 0.3s ease-in-out;
   }
   .centerDiv{
@@ -71,7 +71,7 @@
     margin-top: 5%;
     text-align: center;
     max-width: 20rem;
-    width:70%;
+    width:100%;
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
@@ -110,7 +110,7 @@
     margin-top: 1%;
     text-align: center;
     max-width: 20rem;
-    width:70%;
+    width:100%;
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
@@ -162,7 +162,7 @@
   }
   .photoListItem:hover{
     -webkit-filter: grayscale(0%);
-    /* -webkit-transform:scale(1.01);  */
+    /* -webkit-transform:scale(1);  */
     /* -webkit-transform-origin-x: -180%;
     -webkit-transform-origin-y: 80%; */
     transition: all 1s ease-in-out;

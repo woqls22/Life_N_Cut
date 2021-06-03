@@ -41,7 +41,7 @@ export default function PhotoPostDialog() {
             let tmpimgList: any[] = [];
             res.data.map((item: any) => {
               tmpimgList.push(
-                new ImgDO(item.filename, item.date, item.description, item.album_id)
+                new ImgDO(item.fileId,item.filename, item.date, item.description, item.albumId)
               );
             });
             AlbumStore.AlbumImgList=tmpimgList;
