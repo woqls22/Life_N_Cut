@@ -12,6 +12,7 @@ interface AlbumStore {
   openPhotoPostDialog:boolean;
   reload:boolean;
   AlbumImgList:ImgDO[];
+  openInviteDialog:boolean;
 }
 const AlbumStore = observable<AlbumStore>({
     albumIsSeleted:false,
@@ -19,5 +20,6 @@ const AlbumStore = observable<AlbumStore>({
     openPhotoPostDialog:false,
     reload:false,
     AlbumImgList:[],
+    openInviteDialog:false,
 });
 export default AlbumStore;

@@ -18,6 +18,7 @@ import { AlbumDO } from "./Mypage";
 import { useObserver } from "mobx-react-lite";
 import PhotoAlbum from "./PhotoAlbum";
 import PhotoPostDialog from "./PhotoPostDialog";
+import InviteDialog from "./InviteDialog";
 function deleteAlbum(id: string) {
   let accessToken = localStorage.getItem("accessToken");
   let userId = localStorage.getItem("userid");
@@ -158,7 +159,7 @@ export default function PhotoMain() {
             </div>
             <div style={{ display: "flex", justifyContent: "right" }}>
               <Button
-                // onClick={()=>{AlbumStore.openPhotoPostDialog=true;}}
+                onClick={()=>{AlbumStore.openInviteDialog=true;}}
                 style={{
                   fontFamily: "Yeon Sung",
                   border: "1px solid black",
@@ -171,7 +172,7 @@ export default function PhotoMain() {
               >
                 앨범 초대하기
               </Button>
-              {/* <PhotoPostDialog/> */}
+              <InviteDialog/>
             </div>
             <PhotoAlbum />
           </>
