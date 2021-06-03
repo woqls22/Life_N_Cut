@@ -60,7 +60,12 @@ export default function PhotoAlbum() {
                     expanded={expanded === "panel" + item.imgUrl}
                     onChange={handleChange("panel" + item.imgUrl)}
                     square={false}
-                    style={{ boxShadow: "none", margin: "0 0" }}
+                    style={{
+                      boxShadow: "none",
+                      width: "20rem",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
                   >
                     <AccordionSummary
                       aria-controls="panel4bh-content"
@@ -102,16 +107,23 @@ export default function PhotoAlbum() {
                         }}
                       ></div>
                     </AccordionSummary>
-                    <AccordionDetails style={{ marginTop: 0, padding: 0 }}>
+                    <AccordionDetails
+                      style={{
+                        marginTop: 0,
+                        padding: 0,
+                        width: "20rem",
+                        marginLeft: "auto",
+                        marginRight:"auto"
+                      }}
+                    >
                       <div className="albumtextbox">
-                      <div className={"dateText"}>
-                        {item.date}
-                        <div className={"descriptionText"}>
-                          {item.description}
+                        <div className={"dateText"}>
+                          {item.date}
+                          <div className={"descriptionText"}>
+                            {item.description}
+                          </div>
                         </div>
                       </div>
-                      </div>
-                      
                     </AccordionDetails>
                   </Accordion>
 
