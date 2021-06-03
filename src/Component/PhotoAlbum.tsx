@@ -103,12 +103,15 @@ export default function PhotoAlbum() {
                       ></div>
                     </AccordionSummary>
                     <AccordionDetails style={{ marginTop: 0, padding: 0 }}>
+                      <div className="albumtextbox">
                       <div className={"dateText"}>
                         {item.date}
                         <div className={"descriptionText"}>
                           {item.description}
                         </div>
                       </div>
+                      </div>
+                      
                     </AccordionDetails>
                   </Accordion>
 
