@@ -37,7 +37,6 @@ export default function PhotoPostDialog() {
         setDate("");
         setDescription("");
         setFiles([]);
-        alert("사진이 등록되었습니다");
         fetchData(AlbumStore.clickedAlbum.id).then((res) => {
             let tmpimgList: any[] = [];
             res.data.map((item: any) => {
@@ -47,6 +46,9 @@ export default function PhotoPostDialog() {
             });
             AlbumStore.AlbumImgList=tmpimgList;
           });
+        alert("사진이 등록되었습니다");
+    }).catch(()=>{
+      alert("사진이 등록실패!");
     });
   };
   const changeDate = (e: any) => {

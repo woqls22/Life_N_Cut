@@ -19,6 +19,8 @@ import { useObserver } from "mobx-react-lite";
 import PhotoAlbum from "./PhotoAlbum";
 import PhotoPostDialog from "./PhotoPostDialog";
 import InviteDialog from "./InviteDialog";
+
+
 function deleteAlbum(id: string) {
   let accessToken = localStorage.getItem("accessToken");
   let userId = localStorage.getItem("userid");
