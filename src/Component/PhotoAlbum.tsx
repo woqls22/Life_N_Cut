@@ -112,6 +112,7 @@ export default function PhotoAlbum() {
       sleep(100).then(()=>{
         fetchData(AlbumStore.clickedAlbum.id,startPage+1).then((res) => {
           let tmpimgList: any[] = [...AlbumStore.AlbumImgList];
+          let count = 0;
           res.data.map((item: any) => {
             if(!isInclude(item.filename)){
               AlbumStore.AlbumImgList=[...AlbumStore.AlbumImgList, new ImgDO(
@@ -121,9 +122,12 @@ export default function PhotoAlbum() {
                 item.description,
                 item.albumId
               )];
+              count++;
           }});
           // AlbumStore.AlbumImgList = tmpimgList;
-        startPage=startPage+1;
+        if(count!=0){
+          startPage=startPage+1;
+        }
         });
       })
     }
