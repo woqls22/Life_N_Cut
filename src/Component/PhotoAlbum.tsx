@@ -25,8 +25,8 @@ function getDateCount(dateStr:string){
   let result= Math.floor(gap / (1000 * 60 * 60 * 24))+1;
   return parseInt(result.toString());
 }
-async function fetchData(id: string) {
-  return await axios.get(rootURL + "/imgs/" + id);
+async function fetchData(id: string, page:number) {
+  return await axios.get(rootURL + "/imgs/" + id+"/"+page);
 }
 
 export class ImgDO {
@@ -49,7 +49,17 @@ export class ImgDO {
     this.albumId = albumId;
   }
 }
-
+function isInclude(name:string){
+  for(var i = 0; i<AlbumStore.AlbumImgList.length;i++){
+    if(AlbumStore.AlbumImgList[i].imgUrl==name){
+      return true;
+    }
+  }
+  return false;
+}
+function sleep(ms:any) {
+  return new Promise((r) => setTimeout(r, ms));
+}
 export default function PhotoAlbum() {
   const [expanded, setExpanded] = useState<any>("false");
   const [fileId, setFileId] = useState("");
@@ -57,33 +67,67 @@ export default function PhotoAlbum() {
     setExpanded(isExpanded ? panel : false);
   };
   const [blackTheme, setBlackTheme] = useState(false);
+  let startPage = 0;
   async function deletePic(id: string) {
     let accessToken = localStorage.getItem("accessToken");
     let userId = localStorage.getItem("userid");
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
     await axios.delete(rootURL + "/imgs/" + id).then((res) => {
       alert("사진이 삭제되었습니다.");
-      fetchData(AlbumStore.clickedAlbum.id).then((res) => {
-        let tmpimgList: any[] = [];
+      fetchData(AlbumStore.clickedAlbum.id,0).then((res) => {
+        AlbumStore.AlbumImgList=[];
         res.data.map((item: any) => {
-          tmpimgList.push(
-            new ImgDO(
+          if(!isInclude(item.fileId)){
+            AlbumStore.AlbumImgList=[...AlbumStore.AlbumImgList, new ImgDO(
               item.fileId,
               item.filename,
               item.date,
               item.description,
               item.albumId
-            )
-          );
+            )]
+            // tmpimgList.push(
+            //   new ImgDO(
+            //     item.fileId,
+            //     item.filename,
+            //     item.date,
+            //     item.description,
+            //     item.albumId
+            //   )
+            // );
+          }
         });
-        setImgList(tmpimgList);
-        AlbumStore.AlbumImgList = tmpimgList;
+        // AlbumStore.AlbumImgList = [tmpimgList];
         AlbumStore.deletePicDialog = false;
         setFileId("");
       });
     });
   }
-  const [imgList, setImgList] = useState<ImgDO[]>([]);
+  const [position, setPosition] = useState(0);
+  function onScroll() {
+    setPosition(window.scrollY);
+    let elem: HTMLElement = document.getElementsByClassName(
+      "root"
+    )[0] as HTMLElement;
+    if(window.scrollY+window.innerHeight>=elem.scrollHeight){
+      sleep(100).then(()=>{
+        fetchData(AlbumStore.clickedAlbum.id,startPage+1).then((res) => {
+          let tmpimgList: any[] = [...AlbumStore.AlbumImgList];
+          res.data.map((item: any) => {
+            if(!isInclude(item.filename)){
+              AlbumStore.AlbumImgList=[...AlbumStore.AlbumImgList, new ImgDO(
+                item.fileId,
+                item.filename,
+                item.date,
+                item.description,
+                item.albumId
+              )];
+          }});
+          // AlbumStore.AlbumImgList = tmpimgList;
+        startPage=startPage+1;
+        });
+      })
+    }
+  }
   const openDeleteDialog = (file_id: string) => {
     AlbumStore.deletePicDialog = true;
     setFileId(file_id);
@@ -92,6 +136,7 @@ export default function PhotoAlbum() {
     AlbumStore.deletePicDialog = false;
     setFileId("");
   };
+
   const changeTheme = (event: any) => {
     if (event.target.checked == true) {
       setBlackTheme(true);
@@ -116,7 +161,8 @@ export default function PhotoAlbum() {
     }
   };
   useEffect(() => {
-    fetchData(AlbumStore.clickedAlbum.id).then((res) => {
+    window.addEventListener("scroll", onScroll);
+    fetchData(AlbumStore.clickedAlbum.id,startPage).then((res) => {
       let tmpimgList: any[] = [];
       res.data.map((item: any) => {
         tmpimgList.push(
@@ -129,7 +175,6 @@ export default function PhotoAlbum() {
           )
         );
       });
-      setImgList(tmpimgList);
       AlbumStore.AlbumImgList = tmpimgList;
     });
   }, []);
