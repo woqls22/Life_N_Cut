@@ -305,7 +305,7 @@ export default function PhotoMain() {
                     <TextField
                       onChange={changeDdayDescription}
                       fullWidth={true}
-                      type="month"
+                      type="date"
                     />
                   </div>
                   기념일 설명
