@@ -11,10 +11,13 @@ export default function SignUp() {
   const [nickname, setNickname] = useState("");
   const [birthday, setBirthday] = useState("");
   const postLoginInfo = async () => {
+    if(id.length<5){
+      alert("ID는 최소 5자 이상이어야 합니다.");
+      return;
+    }
     const data = {
       id: id,
       passwd: passwd,
-
       nickname: nickname,
       birthday: birthday,
     };

@@ -64,7 +64,8 @@ export default function MyPage() {
         if (res.data.birthday) {
           setBirthday(res.data.birthday);
         }
-        axios.get(rootURL + "/user/" + userId).then((res) => {setAlbumInfo(res.data.albumList as AlbumDO[]);});
+        axios.get(rootURL + "/album/" + userId).then((res) => {
+          setAlbumInfo(res.data.albumList as AlbumDO[]);});
       });
     }
   }, []);
@@ -171,7 +172,7 @@ export default function MyPage() {
             >
               {birthday.length ? <>{birthday}</> : <>정보없음</>}
             </p>
-            <div
+            {/* <div
               style={{
                 fontFamily: "Hi Melody",
                 fontSize: "1.5rem",
@@ -180,7 +181,8 @@ export default function MyPage() {
             >
                <strong>나의 Private Album</strong>
             </div>
-            <div className={"myalbumcardcontainer"}>
+            {AlbumInfo ?<>
+              <div className={"myalbumcardcontainer"}>
               {AlbumInfo.map((item: AlbumDO) => {
                 return (
                   <>
@@ -193,6 +195,8 @@ export default function MyPage() {
                 );
               })}
             </div>
+            </>:<></>} */}
+            
             <div style={{ display: "flex", justifyContent: "right" }}>
               <Button
                 onClick={setdeleteDialogOpen}
