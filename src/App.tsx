@@ -20,6 +20,7 @@ import Login from "./Component/Login";
 import SignUp from "./Component/SignUp";
 import MyPage from "./Component/Mypage";
 import PhotoMain from "./Component/PhotoMain";
+import PlaceMain from "./Component/PlaceMain";
 
 function WelComePage(){
   return(
@@ -39,6 +40,7 @@ function App() {
         <Route path='/signup' component={SignUp} /> 
         <Route path='/mypage' component={MyPage}/>
         <Route path='/photo/main' component={PhotoMain}/>
+        <Route path='/place/main' component={PlaceMain}/>
       </Router>
     );
   });

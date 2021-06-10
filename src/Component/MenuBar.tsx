@@ -36,6 +36,7 @@ export default function MenuBar() {
   };
   const openBucketPlace = () => {
     if (localStorage.getItem("userInfo")) {
+      window.location.assign("/place/main");
       //    서비스렌더링
     } else {
       // 로그인 창 띄우기
