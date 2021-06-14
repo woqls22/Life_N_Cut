@@ -17,6 +17,45 @@ import {
   class UserInfo {
     constructor(id: string, username: string, token: string) {}
   }
+  // const marker = new naver.maps.Marker({
+  //   position: new naver.maps.LatLng(37.4867995957995, 126.982211871752),
+  //   map: map,
+  //   icon: {
+  //     content: `
+  //         <img alt="marker" src="원하는 마커 이미지" />
+  //       `,
+  //   },
+  // });
+  export const Map = () => {
+    useEffect(() => {
+      let map = null;
+      const initMap = () => {
+        const map = new naver.maps.Map("map", {
+          center: new naver.maps.LatLng(37.3595704, 127.105399),
+          scaleControl: false,
+          logoControl: false,
+          mapDataControl: false,
+          zoomControl: true,
+          minZoom: 6,
+          zoomControlOptions: { //줌 컨트롤의 옵션
+            position: naver.maps.Position.TOP_RIGHT
+        }
+        });}
+      initMap();
+    }, []);
+  //지도 사이즈 관련 스타일
+  const mapStyle = {
+    width: "100%",
+    height: "300px",
+  };
+  return (
+    <>
+    <React.Fragment>
+      <div id="map" style={mapStyle}></div>
+    </React.Fragment>
+    </>
+  );
+};
   export default function PlaceMain() {
     const [userEmailId, setId] = useState("");
     const [nickname, setNickname] = useState("");
@@ -68,52 +107,8 @@ import {
                   width: "20rem",
                 }}
               >
-                <strong>지금은 공사중이에요. <br/>곧 서비스가 오픈됩니다!</strong>
+                <Map/>
               </div>
-              {/* <p
-                style={{
-                  fontFamily: "Hi Melody",
-                  fontSize: "1.3rem",
-                }}
-              >
-                {userEmailId}
-              </p>
-              <div
-                style={{
-                  fontFamily: "Hi Melody",
-                  fontSize: "1.5rem",
-                  width: "20rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <strong>닉네임</strong>
-              </div>
-              <p
-                style={{
-                  fontFamily: "Hi Melody",
-                  fontSize: "1.3rem",
-                }}
-              >
-                {nickname}
-              </p>
-              <div
-                style={{
-                  fontFamily: "Hi Melody",
-                  fontSize: "1.5rem",
-                  width: "20rem",
-                  marginTop: "1rem",
-                }}
-              >
-                 <strong>생년월일</strong>
-              </div>
-              <p
-                style={{
-                  fontFamily: "Hi Melody",
-                  fontSize: "1.3rem",
-                }}
-              >
-                {birthday.length ? <>{birthday}</> : <>정보없음</>}
-              </p> */}
               <div style={{ display: "flex", justifyContent: "right" }}>
                 <Button
                   style={{
