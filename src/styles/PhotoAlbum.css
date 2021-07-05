@@ -195,6 +195,22 @@
   }
   .MuiAccordionSummary-root{
   }
+  .chatBox{
+    position:fixed;
+    height:400px;
+    width:100%;
+    bottom:0px;
+    z-index:10;
+  }
+  .chatContainer{
+    /* background-color:lightgrey; */
+    font-family: 'Yeon Sung', cursive;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    height:350px;
+  }
+
   @keyframes fadein {
     from {
         opacity: 0;

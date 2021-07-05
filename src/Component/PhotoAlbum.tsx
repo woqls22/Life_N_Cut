@@ -10,6 +10,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import DeleteSharpIcon from "@material-ui/icons/DeleteSharp";
+
 import {
   Dialog,
   DialogTitle,
@@ -18,6 +19,7 @@ import {
   Button,
   Checkbox,
 } from "@material-ui/core";
+import ChatDrawer from "./ChatDrawer";
 function getDateCount(dateStr:string){
   let date = new Date(dateStr);
   let today = new Date();
@@ -247,6 +249,11 @@ export default function PhotoAlbum() {
             Black Theme
           </div>
         </div>
+        <div className="chatBox">
+          <div className="chatContainer">
+          <ChatDrawer/>
+          </div>
+        </div>
         <div
           className={"photoList"}
           style={{
@@ -399,6 +406,7 @@ export default function PhotoAlbum() {
             <Button onClick={closeDeleteDialog}>취소</Button>
           </DialogActions>
         </Dialog>
+        
       </>
     );
   });
