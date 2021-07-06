@@ -21,6 +21,7 @@ import SignUp from "./Component/SignUp";
 import MyPage from "./Component/Mypage";
 import PhotoMain from "./Component/PhotoMain";
 import PlaceMain from "./Component/PlaceMain";
+// import { ChatContainer } from "./Component/ChatContiner";
 
 function WelComePage(){
   return(
@@ -41,6 +42,7 @@ function App() {
         <Route path='/mypage' component={MyPage}/>
         <Route path='/photo/main' component={PhotoMain}/>
         <Route path='/place/main' component={PlaceMain}/>
+        {/* <Route path='/chat' component={ChatContainer}/> */}
       </Router>
     );
   });
